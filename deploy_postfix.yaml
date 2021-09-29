@@ -1,0 +1,17 @@
+- name: install/unistall postfix
+  hosts: nana-test
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install
+      apt:
+        name: postfix
+        state: present
+      tags: [init]
+    - name: unistall
+      apt:
+        name: postfix
+        state: absent
+        purge: yes
+        autoremove: yes
+      tags: [drop]

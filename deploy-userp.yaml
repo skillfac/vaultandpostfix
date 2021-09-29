@@ -1,0 +1,30 @@
+- name: deploy and create user and give him encrypted ssh  key
+  hosts: nana-test
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: creating users group
+    group:
+      name: userp
+      state: present
+
+
+  - name: creating user
+    user:
+      name: userp
+      shell: /bin/bash
+      groups: users
+      append: yes
+
+  - name: create users ssh directory remotly
+    file:
+      path: /home/userp/.ssh
+      state: directory
+      mode: ugo=rwx
+
+
+  - name: Adding pub key
+    copy:
+      src: /home/student/.ssh/userp_rsa.pub
+      dest: /home/userp/.ssh/userp_rsa.pub 
+      mode: 0600
